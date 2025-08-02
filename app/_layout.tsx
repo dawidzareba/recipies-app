@@ -26,7 +26,6 @@ export default function RootLayout() {
           options={{ 
             headerShown: true,
             title: 'Recipe Details',
-            headerBackTitleVisible: false,
           }} 
         />
         <Stack.Screen name="+not-found" />
