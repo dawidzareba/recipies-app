@@ -1,50 +1,103 @@
-# Welcome to your Expo app 👋
+# Recipes App 🍳
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native mobile application built with Expo that displays recipes with search functionality and detailed recipe views.
 
-## Get started
+## Features
 
-1. Install dependencies
+### ✅ Recipe List
+- Display recipes with name, image, preparation time, and difficulty
+- Infinite scroll pagination
+- Search recipes by name
+- Pull-to-refresh functionality
 
+### ✅ Recipe Details
+- Complete recipe information including ingredients and instructions
+- Rating and review count
+- Nutritional information
+- Cooking time and servings
+- Tags and difficulty level
+
+### ✅ Technical Features
+- TypeScript with strict mode
+- React Navigation with Expo Router
+- Custom hooks for state management
+- Comprehensive error handling
+- Loading states throughout the app
+- Responsive design with SafeAreaView
+- Full test coverage
+
+## Quick Start
+
+1. **Install dependencies**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+2. **Start the development server**
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+3. **Run on device**
+   - Scan the QR code with Expo Go (Android) or Camera app (iOS)
+   - Or press 'a' for Android emulator, 'i' for iOS simulator
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Available Scripts
 
 ```bash
-npm run reset-project
+npm start          # Start Expo development server
+npm run android    # Run on Android device/emulator
+npm run ios        # Run on iOS device/simulator
+npm run web        # Run in web browser
+npm run lint       # Run ESLint
+npm run typecheck  # Run TypeScript type checking
+npm run test       # Run tests
+npm run test:watch # Run tests in watch mode
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Project Structure
 
-## Learn more
+```
+app/
+├── (tabs)/           # Tab navigation screens
+├── recipe/           # Recipe detail dynamic routes
+├── screens/          # Screen components
+├── utils/            # API utilities and types
+├── tests/            # Test files
+components/           # Reusable components
+├── LoadingSpinner.tsx
+├── ErrorComponent.tsx
+├── SearchBar.tsx
+└── RecipeCard.tsx
+constants/            # Design tokens and constants
+hooks/                # Custom React hooks
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## API
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+The app uses the [DummyJSON Recipes API](https://dummyjson.com/recipes):
+- `GET /recipes` - List recipes with pagination
+- `GET /recipes/search` - Search recipes by name
+- `GET /recipes/{id}` - Get recipe details
 
-## Join the community
+## Dependencies Note
 
-Join our community of developers creating universal apps.
+This project uses React 19 which may cause peer dependency conflicts with some testing libraries. The `.npmrc` file is configured with `legacy-peer-deps=true` to resolve these conflicts.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Development Guidelines
+
+- **TypeScript**: Strict mode enabled with `noUnusedParameters` and `noUncheckedIndexedAccess`
+- **Components**: One component per file, functional components only
+- **Styling**: No inline styles, use `StyleSheet.create`
+- **Navigation**: File-based routing with Expo Router
+- **State**: Custom hooks with proper error handling
+- **Testing**: Comprehensive test coverage for components and hooks
+
+## Built With
+
+- React Native 0.79
+- Expo 53
+- TypeScript 5.8
+- Expo Router 5.1
+- React Navigation 7
+- @testing-library/react-native
