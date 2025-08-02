@@ -39,7 +39,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         autoCorrect={false}
       />
       {value.length > 0 && (
-        <TouchableOpacity onPress={onClear} style={styles.clearButton}>
+        <TouchableOpacity onPress={onClear} style={styles.clearButton} testID="clear-button">
           <Ionicons name="close-circle" size={20} color={iconColor} />
         </TouchableOpacity>
       )}

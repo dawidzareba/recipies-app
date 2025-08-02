@@ -14,7 +14,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={size} />
+      <ActivityIndicator size={size} testID="activity-indicator" />
       {message && (
         <ThemedText style={styles.message}>{message}</ThemedText>
       )}
