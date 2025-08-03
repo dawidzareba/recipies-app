@@ -3,35 +3,31 @@ import {
   View, 
   ScrollView, 
   StyleSheet, 
-  Image, 
-  Dimensions,
   SafeAreaView
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { fetchRecipeById } from '@/app/utils/api';
-import { getDifficultyColor } from '@/app/utils/recipeUtils';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ErrorComponent } from '@/components/ErrorComponent';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { SPACING, BORDER_RADIUS } from '@/constants/Spacing';
+import { RecipeImage } from '@/components/RecipeImage';
+import { RecipeStats } from '@/components/RecipeStats';
+import { RecipeRating } from '@/components/RecipeRating';
+import { RecipeCalories } from '@/components/RecipeCalories';
+import { RecipeTags } from '@/components/RecipeTags';
+import { RecipeIngredients } from '@/components/RecipeIngredients';
+import { RecipeInstructions } from '@/components/RecipeInstructions';
+import { SPACING } from '@/constants/Spacing';
 import type { Recipe, ApiError } from '@/app/utils/types';
 
 interface RecipeDetailsScreenProps {
   recipeId: number;
 }
 
-const { width: screenWidth } = Dimensions.get('window');
-
-
 export const RecipeDetailsScreen: React.FC<RecipeDetailsScreenProps> = ({ recipeId }) => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const iconColor = useThemeColor({}, 'icon');
-  const backgroundColor = useThemeColor({}, 'background');
 
   const loadRecipe = async () => {
     try {
@@ -70,89 +66,34 @@ export const RecipeDetailsScreen: React.FC<RecipeDetailsScreenProps> = ({ recipe
     );
   }
 
-  const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
-
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Image source={{ uri: recipe.image }} style={styles.image} />
+          <RecipeImage uri={recipe.image} alt={recipe.name} />
           
           <View style={styles.content}>
             <ThemedText style={styles.title}>{recipe.name}</ThemedText>
             
-            <View style={styles.statsContainer}>
-              <View style={styles.statItem}>
-                <Ionicons name="time-outline" size={20} color={iconColor} />
-                <ThemedText style={[styles.statText, { color: iconColor }]}>
-                  {totalTime} min
-                </ThemedText>
-              </View>
-              
-              <View style={styles.statItem}>
-                <Ionicons name="people-outline" size={20} color={iconColor} />
-                <ThemedText style={[styles.statText, { color: iconColor }]}>
-                  {recipe.servings} servings
-                </ThemedText>
-              </View>
-              
-              <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(recipe.difficulty) }]}>
-                <ThemedText style={styles.difficultyText}>
-                  {recipe.difficulty}
-                </ThemedText>
-              </View>
-            </View>
+            <RecipeStats
+              prepTimeMinutes={recipe.prepTimeMinutes}
+              cookTimeMinutes={recipe.cookTimeMinutes}
+              servings={recipe.servings}
+              difficulty={recipe.difficulty}
+            />
 
-            <View style={styles.ratingContainer}>
-              <Ionicons name="star" size={20} color="#FFD700" />
-              <ThemedText style={[styles.rating, { color: iconColor }]}>
-                {recipe.rating.toFixed(1)} ({recipe.reviewCount} reviews)
-              </ThemedText>
-            </View>
+            <RecipeRating
+              rating={recipe.rating}
+              reviewCount={recipe.reviewCount}
+            />
 
-            <View style={styles.caloriesContainer}>
-              <Ionicons name="fitness-outline" size={20} color={iconColor} />
-              <ThemedText style={[styles.calories, { color: iconColor }]}>
-                {recipe.caloriesPerServing} calories per serving
-              </ThemedText>
-            </View>
+            <RecipeCalories caloriesPerServing={recipe.caloriesPerServing} />
 
-            {recipe.tags.length > 0 && (
-              <View style={styles.tagsContainer}>
-                <ThemedText style={styles.sectionTitle}>Tags</ThemedText>
-                <View style={styles.tags}>
-                  {recipe.tags.map((tag, index) => (
-                    <View key={index} style={[styles.tag, { backgroundColor }]}>
-                      <ThemedText style={[styles.tagText, { color: iconColor }]}>
-                        {tag}
-                      </ThemedText>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
+            <RecipeTags tags={recipe.tags} />
 
-            <View style={styles.section}>
-              <ThemedText style={styles.sectionTitle}>Ingredients</ThemedText>
-              {recipe.ingredients.map((ingredient, index) => (
-                <View key={index} style={styles.listItem}>
-                  <ThemedText style={styles.bullet}>•</ThemedText>
-                  <ThemedText style={styles.listText}>{ingredient}</ThemedText>
-                </View>
-              ))}
-            </View>
+            <RecipeIngredients ingredients={recipe.ingredients} />
 
-            <View style={styles.section}>
-              <ThemedText style={styles.sectionTitle}>Instructions</ThemedText>
-              {recipe.instructions.map((instruction, index) => (
-                <View key={index} style={styles.instructionItem}>
-                  <View style={styles.stepNumber}>
-                    <ThemedText style={styles.stepText}>{index + 1}</ThemedText>
-                  </View>
-                  <ThemedText style={styles.instructionText}>{instruction}</ThemedText>
-                </View>
-              ))}
-            </View>
+            <RecipeInstructions instructions={recipe.instructions} />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -167,10 +108,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  image: {
-    width: screenWidth,
-    height: 250,
-  },
   content: {
     padding: SPACING.md,
   },
@@ -178,114 +115,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: SPACING.md,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-    flexWrap: 'wrap',
-  },
-  statItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: SPACING.lg,
-    marginBottom: SPACING.xs,
-  },
-  statText: {
-    marginLeft: SPACING.xs,
-    fontSize: 14,
-  },
-  difficultyBadge: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: 4,
-    borderRadius: BORDER_RADIUS.sm,
-  },
-  difficultyText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.sm,
-  },
-  rating: {
-    marginLeft: SPACING.xs,
-    fontSize: 16,
-  },
-  caloriesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.lg,
-  },
-  calories: {
-    marginLeft: SPACING.xs,
-    fontSize: 14,
-  },
-  tagsContainer: {
-    marginBottom: SPACING.lg,
-  },
-  tags: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: SPACING.xs,
-  },
-  tag: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: SPACING.xs,
-    borderRadius: BORDER_RADIUS.sm,
-    marginRight: SPACING.xs,
-    marginBottom: SPACING.xs,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  tagText: {
-    fontSize: 12,
-  },
-  section: {
-    marginBottom: SPACING.lg,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: SPACING.sm,
-  },
-  listItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: SPACING.xs,
-  },
-  bullet: {
-    marginRight: SPACING.sm,
-    marginTop: 2,
-  },
-  listText: {
-    flex: 1,
-    lineHeight: 20,
-  },
-  instructionItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: SPACING.md,
-  },
-  stepNumber: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#007AFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: SPACING.sm,
-    marginTop: 2,
-  },
-  stepText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  instructionText: {
-    flex: 1,
-    lineHeight: 22,
   },
 });
