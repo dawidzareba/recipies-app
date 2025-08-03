@@ -4,9 +4,9 @@ import {
   ScrollView, 
   StyleSheet, 
   Image, 
-  Dimensions 
+  Dimensions,
+  SafeAreaView
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { fetchRecipeById } from '@/app/utils/api';
 import { getDifficultyColor } from '@/app/utils/recipeUtils';
