@@ -2,7 +2,6 @@ import { renderHook, act } from '@testing-library/react-native';
 import { useRecipes } from '@/hooks/useRecipes';
 import { fetchRecipes } from '@/app/utils/api';
 
-// Mock the API
 jest.mock('@/app/utils/api');
 const mockFetchRecipes = fetchRecipes as jest.MockedFunction<typeof fetchRecipes>;
 
@@ -71,7 +70,6 @@ describe('useRecipes hook', () => {
     const { result } = renderHook(() => useRecipes());
 
     await act(async () => {
-      // Wait for the effect to complete
       await new Promise(resolve => setTimeout(resolve, 0));
     });
 
@@ -85,7 +83,7 @@ describe('useRecipes hook', () => {
   test('handles search correctly', async () => {
     mockFetchRecipes.mockResolvedValue({
       ...mockRecipesResponse,
-      recipes: [mockRecipesResponse.recipes[0]], // Return only first recipe for search
+      recipes: [mockRecipesResponse.recipes[0]],
     });
 
     const { result } = renderHook(() => useRecipes());

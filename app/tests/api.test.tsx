@@ -1,6 +1,5 @@
 import { fetchRecipes, fetchRecipeById } from '@/app/utils/api';
 
-// Mock fetch globally
 global.fetch = jest.fn();
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 

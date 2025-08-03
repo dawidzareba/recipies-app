@@ -2,8 +2,7 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
-// Exclude test files and testing libraries from bundling
-const existingBlockList = Array.isArray(config.resolver.blockList) 
+const existingBlockList = Array.isArray(config.resolver.blockList)
   ? config.resolver.blockList 
   : config.resolver.blockList 
     ? [config.resolver.blockList] 

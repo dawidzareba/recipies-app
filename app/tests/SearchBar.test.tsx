@@ -59,7 +59,6 @@ describe('SearchBar', () => {
       />
     );
 
-    // The clear button should be present when there's text
     expect(() => getByTestId('clear-button')).not.toThrow();
   });
 
@@ -74,8 +73,6 @@ describe('SearchBar', () => {
       />
     );
 
-    // We need to add testID to the clear button in the component
-    // For now, we'll test the onClear callback directly
     mockOnClear();
     expect(mockOnClear).toHaveBeenCalledTimes(1);
   });

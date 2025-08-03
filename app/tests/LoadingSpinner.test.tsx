@@ -19,7 +19,6 @@ describe('LoadingSpinner', () => {
 
   test('renders ActivityIndicator', () => {
     const { getByTestId } = render(<LoadingSpinner />);
-    // ActivityIndicator should have a testID by default in React Native Testing Library
     expect(() => getByTestId('activity-indicator')).not.toThrow();
   });
 });
