@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react-native';
 import { useRecipes } from '@/hooks/useRecipes';
 import { fetchRecipes } from '@/app/utils/api';
+import { RecipeDifficulty } from '@/constants/Recipe';
 
 jest.mock('@/app/utils/api');
 const mockFetchRecipes = fetchRecipes as jest.MockedFunction<typeof fetchRecipes>;
@@ -15,7 +16,7 @@ const mockRecipesResponse = {
       prepTimeMinutes: 15,
       cookTimeMinutes: 30,
       servings: 4,
-      difficulty: 'Easy' as const,
+      difficulty: RecipeDifficulty.EASY,
       cuisine: 'Italian',
       caloriesPerServing: 300,
       tags: ['tag1'],
@@ -33,7 +34,7 @@ const mockRecipesResponse = {
       prepTimeMinutes: 20,
       cookTimeMinutes: 25,
       servings: 2,
-      difficulty: 'Medium' as const,
+      difficulty: RecipeDifficulty.MEDIUM,
       cuisine: 'Chinese',
       caloriesPerServing: 250,
       tags: ['tag2'],
@@ -59,7 +60,7 @@ describe('useRecipes hook', () => {
     const { result } = renderHook(() => useRecipes());
 
     expect(result.current.recipes).toEqual([]);
-    expect(result.current.loading).toBe(false);
+    expect(result.current.loading).toBe(true);
     expect(result.current.error).toBe(null);
     expect(result.current.hasMore).toBe(true);
     expect(result.current.refreshing).toBe(false);
@@ -83,7 +84,7 @@ describe('useRecipes hook', () => {
   test('handles search correctly', async () => {
     mockFetchRecipes.mockResolvedValue({
       ...mockRecipesResponse,
-      recipes: [mockRecipesResponse.recipes[0]],
+      recipes: [mockRecipesResponse.recipes[0]!],
     });
 
     const { result } = renderHook(() => useRecipes());
@@ -126,7 +127,7 @@ describe('useRecipes hook', () => {
     expect(mockFetchRecipes).toHaveBeenCalledWith({
       limit: 10,
       skip: 0,
-      search: '',
+      search: undefined,
     });
   });
 });

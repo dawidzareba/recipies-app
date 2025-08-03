@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { fetchRecipeById } from '@/app/utils/api';
+import { getDifficultyColor } from '@/app/utils/recipeUtils';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ErrorComponent } from '@/components/ErrorComponent';
 import { ThemedView } from '@/components/ThemedView';
@@ -23,18 +24,6 @@ interface RecipeDetailsScreenProps {
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const getDifficultyColor = (difficulty: Recipe['difficulty']): string => {
-  switch (difficulty) {
-    case 'Easy':
-      return '#4CAF50';
-    case 'Medium':
-      return '#FF9800';
-    case 'Hard':
-      return '#F44336';
-    default:
-      return '#757575';
-  }
-};
 
 export const RecipeDetailsScreen: React.FC<RecipeDetailsScreenProps> = ({ recipeId }) => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);

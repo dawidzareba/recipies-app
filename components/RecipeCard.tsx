@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from './ThemedText';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { SPACING, BORDER_RADIUS } from '@/constants/Spacing';
+import { getDifficultyColor } from '@/app/utils/recipeUtils';
 import type { Recipe } from '@/app/utils/types';
 
 interface RecipeCardProps {
@@ -11,18 +12,6 @@ interface RecipeCardProps {
   onPress: () => void;
 }
 
-const getDifficultyColor = (difficulty: Recipe['difficulty']): string => {
-  switch (difficulty) {
-    case 'Easy':
-      return '#4CAF50';
-    case 'Medium':
-      return '#FF9800';
-    case 'Hard':
-      return '#F44336';
-    default:
-      return '#757575';
-  }
-};
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onPress }) => {
   const backgroundColor = useThemeColor({}, 'background');

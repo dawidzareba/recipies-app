@@ -1,5 +1,6 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import { RecipeCard } from '@/components/RecipeCard';
+import { RecipeDifficulty } from '@/constants/Recipe';
 import type { Recipe } from '@/app/utils/types';
 
 const mockRecipe: Recipe = {
@@ -10,7 +11,7 @@ const mockRecipe: Recipe = {
   prepTimeMinutes: 15,
   cookTimeMinutes: 30,
   servings: 4,
-  difficulty: 'Easy',
+  difficulty: RecipeDifficulty.EASY,
   cuisine: 'Italian',
   caloriesPerServing: 300,
   tags: ['tag1', 'tag2'],
@@ -45,7 +46,7 @@ describe('RecipeCard', () => {
   });
 
   test('displays correct difficulty color for Medium difficulty', () => {
-    const mediumRecipe = { ...mockRecipe, difficulty: 'Medium' as const };
+    const mediumRecipe = { ...mockRecipe, difficulty: RecipeDifficulty.MEDIUM };
     const mockOnPress = jest.fn();
     const { getByText } = render(
       <RecipeCard recipe={mediumRecipe} onPress={mockOnPress} />
@@ -55,7 +56,7 @@ describe('RecipeCard', () => {
   });
 
   test('displays correct difficulty color for Hard difficulty', () => {
-    const hardRecipe = { ...mockRecipe, difficulty: 'Hard' as const };
+    const hardRecipe = { ...mockRecipe, difficulty: RecipeDifficulty.HARD };
     const mockOnPress = jest.fn();
     const { getByText } = render(
       <RecipeCard recipe={hardRecipe} onPress={mockOnPress} />

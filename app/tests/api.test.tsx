@@ -1,4 +1,5 @@
 import { fetchRecipes, fetchRecipeById } from '@/app/utils/api';
+import { RecipeDifficulty } from '@/constants/Recipe';
 
 global.fetch = jest.fn();
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
@@ -20,7 +21,7 @@ describe('API functions', () => {
             prepTimeMinutes: 15,
             cookTimeMinutes: 30,
             servings: 4,
-            difficulty: 'Easy',
+            difficulty: RecipeDifficulty.EASY,
             cuisine: 'Italian',
             caloriesPerServing: 300,
             tags: ['tag1'],
@@ -75,9 +76,9 @@ describe('API functions', () => {
         status: 500,
       } as Response);
 
-      await expect(fetchRecipes({ limit: 10, skip: 0 })).rejects.toThrow(
-        'HTTP error! status: 500'
-      );
+      await expect(fetchRecipes({ limit: 10, skip: 0 })).rejects.toMatchObject({
+        message: 'HTTP error! status: 500'
+      });
     });
 
     test('handles invalid response format', async () => {
@@ -86,9 +87,9 @@ describe('API functions', () => {
         json: () => Promise.resolve({ invalid: 'response' }),
       } as Response);
 
-      await expect(fetchRecipes({ limit: 10, skip: 0 })).rejects.toThrow(
-        'Invalid response format'
-      );
+      await expect(fetchRecipes({ limit: 10, skip: 0 })).rejects.toMatchObject({
+        message: 'Invalid response format'
+      });
     });
   });
 
@@ -102,7 +103,7 @@ describe('API functions', () => {
         prepTimeMinutes: 15,
         cookTimeMinutes: 30,
         servings: 4,
-        difficulty: 'Easy',
+        difficulty: RecipeDifficulty.EASY,
         cuisine: 'Italian',
         caloriesPerServing: 300,
         tags: ['tag1'],
@@ -132,9 +133,9 @@ describe('API functions', () => {
         json: () => Promise.resolve({ invalid: 'data' }),
       } as Response);
 
-      await expect(fetchRecipeById(1)).rejects.toThrow(
-        'Invalid recipe data'
-      );
+      await expect(fetchRecipeById(1)).rejects.toMatchObject({
+        message: 'Invalid recipe data'
+      });
     });
   });
 });

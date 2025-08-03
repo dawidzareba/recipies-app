@@ -1,3 +1,5 @@
+import type { RecipeDifficulty } from '@/constants/Recipe';
+
 export interface Recipe {
   id: number;
   name: string;
@@ -6,7 +8,7 @@ export interface Recipe {
   prepTimeMinutes: number;
   cookTimeMinutes: number;
   servings: number;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: RecipeDifficulty;
   cuisine: string;
   caloriesPerServing: number;
   tags: string[];

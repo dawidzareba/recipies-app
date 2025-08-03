@@ -9,8 +9,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "node --test app/tests/**/*.test.tsx",
-    "test:watch": "node --test --watch app/tests/**/*.test.tsx",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -45,13 +45,21 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.2.2",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.0.10",
+    "babel-jest": "^30.0.5",
+    "babel-preset-expo": "^13.2.3",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
-    "react-test-renderer": "^19.1.1",
+    "jest": "^30.0.5",
+    "jest-expo": "^53.0.9",
+    "react-test-renderer": "^19.0.0",
     "typescript": "~5.8.3"
   },
   "private": true
