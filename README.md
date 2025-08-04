@@ -2,6 +2,32 @@
 
 A React Native mobile application built with Expo that displays recipes with search functionality and detailed recipe views.
 
+## Setup
+
+Install required dependencies:
+```bash
+npm install
+```
+
+## Running the App
+
+Android:
+```bash
+npx expo run:android
+```
+
+iOS:
+```bash
+npx expo run:ios
+```
+
+## Tests
+
+Run tests using:
+```bash
+npm test
+```
+
 ## Features
 
 ### Recipe List
