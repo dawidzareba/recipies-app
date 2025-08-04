@@ -66,6 +66,9 @@ export const RecipesList: React.FC<RecipesListProps> = ({
       }
       showsVerticalScrollIndicator={false}
       contentContainerStyle={recipes.length === 0 ? styles.emptyList : undefined}
+      initialNumToRender={8}
+      maxToRenderPerBatch={8}
+      windowSize={5}
     />
   );
 };
